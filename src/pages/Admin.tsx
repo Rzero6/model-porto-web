@@ -14,7 +14,8 @@ import { auth } from "@/lib/firebase";
 
 const Admin = () => {
     const [activeTab, setActiveTab] = useState("personal");
-    const { model, loading, saveData } = useModel();
+    const userId = auth.currentUser?.uid ?? "";
+    const { model, loading, saveData } = useModel(userId);
 
     return (
         <div className="min-h-screen bg-background py-3 px-6">

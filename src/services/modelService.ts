@@ -9,9 +9,8 @@ import { auth, db } from "@/lib/firebase"
 import { type ModelInfo } from "@/types/ModelInfo"
 
 const COLLECTION = "models";
-const id = import.meta.env.VITE_FIREBASE_DATA;
 
-export async function getModel(): Promise<ModelInfo | null> {
+export async function getModel(id: string): Promise<ModelInfo | null> {
     const ref = doc(db, COLLECTION, id)
     const snap = await getDoc(ref)
 
@@ -23,7 +22,8 @@ export async function getModel(): Promise<ModelInfo | null> {
     }
 }
 export async function updateModel(
-    data: Partial<ModelInfo>
+    data: Partial<ModelInfo>,
+    id: string
 ) {
     const ref = doc(db, COLLECTION, id)
 

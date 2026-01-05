@@ -8,12 +8,13 @@ import { Experience } from "@/components/public/Experience";
 import { Contact } from "@/components/public/Contact";
 import { Footer } from "@/components/public/Footer";
 import { useModel } from "@/hooks/useModel";
+const id = import.meta.env.VITE_FIREBASE_DATA;
 
 const Index = () => {
-    const { model } = useModel();
+    const { model } = useModel(id);
     return (
         <main className="min-h-screen">
-            {!model ? null : (
+            {model && (
                 <>
                     <Navigation name={model.name} />
                     <Hero model={model} />

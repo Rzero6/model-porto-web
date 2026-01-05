@@ -122,7 +122,14 @@ const PortfoliosManager = ({ model, loading: isLoading, saveData }: PortfoliosMa
                 )}
             </div>
 
-            {portfolios.length !== 0 && (
+            {portfolios.length === 0 ? (
+                <div className="text-center py-12 text-muted-foreground">
+                    <p>No portfolios added yet.</p>
+                    <Button className="mt-4" variant="outline" onClick={() => setIsEditMode(true)}>
+                        <Plus className="mr-2 h-4 w-4" /> Add Portfolio
+                    </Button>
+                </div>
+            ) : (
                 <div ref={containerRef} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-h-125 overflow-auto">
                     {portfolios.map((portfolio, index) => (
                         <Card

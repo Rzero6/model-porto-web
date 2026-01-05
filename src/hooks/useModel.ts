@@ -3,7 +3,7 @@ import { toast } from "sonner";
 import { getModel, updateModel } from "@/services/modelService";
 import type { ModelInfo } from "@/types/ModelInfo";
 
-export function useModel() {
+export function useModel(id: string) {
     const [model, setModel] = useState<ModelInfo | null>();
     const [loading, setLoading] = useState(true);
     const cleaned = useRef(false);
@@ -11,7 +11,7 @@ export function useModel() {
     const loadAll = async () => {
         try {
             setLoading(true);
-            const m = await getModel();
+            const m = await getModel(id);
             setModel(m);
         } catch (err) {
             toast.error("Failed to load data");
@@ -25,10 +25,10 @@ export function useModel() {
         data: Omit<ModelInfo, "id" | "created_at">,
     ) => {
         try {
-            await updateModel(data);
+            await updateModel(data, id);
             toast.success("data updated");
 
-            const m = await getModel();
+            const m = await getModel(id);
             setModel(m);
         } catch {
             toast.error("Failed to save data");
