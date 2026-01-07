@@ -37,7 +37,6 @@ export function useModel(id: string) {
 
     useEffect(() => {
         if (!cleaned.current) {
-            console.log("Loading data");
             loadAll();
         }
         return () => {

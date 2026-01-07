@@ -20,6 +20,8 @@ const LanguagesInput = ({ languages, onChange, disabled }: LanguagesInputProps) 
     };
 
     const removeLanguage = (index: number) => {
+        const confirmDelete = globalThis.confirm("Are you sure want to delete?");
+        if (!confirmDelete) return;
         onChange(languages.filter((_, i) => i !== index));
     };
 

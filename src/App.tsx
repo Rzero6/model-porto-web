@@ -9,22 +9,23 @@ import Login from './pages/Login';
 import { AuthProvider } from './components/AuthProvider';
 
 const App = () => (
-  <AuthProvider>
-    <TooltipProvider>
-      <Toaster />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="*" element={<NotFound />} />
-          <Route path="/login" element={<Login />} />
-          <Route path='/admin' element={
+  <TooltipProvider>
+    <Toaster />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="*" element={<NotFound />} />
+        <Route path="/login" element={<Login />} />
+        <Route path='/admin' element={
+          <AuthProvider>
             <ProtectedRoute>
               <Admin />
-            </ProtectedRoute>} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </AuthProvider>
+            </ProtectedRoute>
+          </AuthProvider>
+        } />
+      </Routes>
+    </BrowserRouter>
+  </TooltipProvider>
 );
 
 export default App

@@ -16,7 +16,7 @@ export const About = ({ model }: SectionProps) => {
                         <div className="aspect-3/4 overflow-hidden">
                             <img
                                 src={model.profileImage}
-                                alt="Mei Lin Chen portrait"
+                                alt={model.name + " portrait"}
                                 className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
                                 loading="lazy"
                             />

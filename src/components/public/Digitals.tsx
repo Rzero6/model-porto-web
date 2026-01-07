@@ -5,7 +5,10 @@ import type { Digital, SectionProps } from "@/types/ModelInfo";
 
 export const Digitals = ({ model }: SectionProps) => {
     const [selectedImage, setSelectedImage] = useState<Digital | null>(null);
-
+    const variantViewText = {
+        initial: { backgroundSize: "0% 100%" },
+        whileHover: { backgroundSize: "100% 100%" },
+    }
     return (
         <section id="digitals" className="section-padding bg-background">
             <div className="container-narrow">
@@ -50,24 +53,36 @@ export const Digitals = ({ model }: SectionProps) => {
                                 alt={image.alt}
                                 className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
                                 loading="lazy"
+                                decoding="async"
                             />
 
+                            {/* Dark overlay */}
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300" />
                             {/* Bottom label */}
                             <div className="absolute bottom-0 left-0 right-0 p-3 bg-linear-to-t from-black/60 to-transparent">
-                                <span className="font-sans text-xs text-ivory/80 tracking-wide">
+                                <span className="font-sans text-xs text-ivory tracking-wide">
                                     {image.alt.replace("Digital - ", "")}
                                 </span>
                             </div>
 
-                            {/* Dark overlay */}
-                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300" />
-
                             {/* Center view text */}
-                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <span className="font-sans text-xs tracking-widest uppercase text-ivory">
+                            <motion.div
+                                initial="initial"
+                                whileHover="whileHover"
+                                className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <motion.span
+                                    variants={variantViewText}
+                                    transition={{ duration: 0.5, ease: "easeOut" }}
+                                    className="font-sans text-xs tracking-widest uppercase text-primary-foreground px-2 py-1 inline-block"
+                                    style={{
+                                        background: "linear-gradient(to right, var(--primary), var(--primary))",
+                                        backgroundRepeat: "no-repeat",
+                                        backgroundPosition: "left center",
+                                    }}
+                                >
                                     View
-                                </span>
-                            </div>
+                                </motion.span>
+                            </motion.div>
                         </motion.div>
 
                     ))}

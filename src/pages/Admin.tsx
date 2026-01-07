@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Home, FolderKanban, Users2, Camera, Images } from "lucide-react";
+import { Home, FolderKanban, Users2, Camera, Images, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
 import PersonalInfoManager from "@/components/protected/PersonalInfoManager";
 import DigitalsManager from "@/components/protected/DigitalsManager";
@@ -10,6 +10,7 @@ import { useModel } from "@/hooks/useModel";
 import ClientsManager from "@/components/protected/ClientsManager";
 import Logout from "@/components/LogoutButton";
 import { auth } from "@/lib/firebase";
+import AchivementsManager from "@/components/protected/AchivementsManager";
 
 
 const Admin = () => {
@@ -56,6 +57,10 @@ const Admin = () => {
                             <Users2 className="w-4 h-4" />
                             <span className="hidden sm:inline">Clients</span>
                         </TabsTrigger>
+                        <TabsTrigger value="achivements" className="flex items-center gap-2">
+                            <Trophy className="w-4 h-4" />
+                            <span className="hidden sm:inline">Achivements</span>
+                        </TabsTrigger>
                     </TabsList>
 
                     <TabsContent value="personal">
@@ -71,6 +76,9 @@ const Admin = () => {
                     </TabsContent>
                     <TabsContent value="clients">
                         <ClientsManager model={model ?? null} loading={loading} saveData={saveData} />
+                    </TabsContent>
+                    <TabsContent value="achivements">
+                        <AchivementsManager model={model ?? null} loading={loading} saveData={saveData} />
                     </TabsContent>
                 </Tabs>
             </div>

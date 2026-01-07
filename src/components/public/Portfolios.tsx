@@ -23,7 +23,10 @@ export const Portfolios = ({ model }: SectionProps) => {
     const totalSquares = imagesToRender.filter(img => img.aspectRatio === "square").length;
     let remainingSquares = totalSquares;
 
-
+    const variantViewText = {
+        initial: { backgroundSize: "0% 100%" },
+        whileHover: { backgroundSize: "100% 100%" },
+    }
     return (
         <section id="portfolio" className="section-padding bg-cream">
             <div className="container-wide">
@@ -88,13 +91,30 @@ export const Portfolios = ({ model }: SectionProps) => {
                                         alt={image.alt}
                                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                         loading="lazy"
+                                        decoding="async"
                                     />
-                                    <div className="absolute inset-0 bg-soft-black/0 group-hover:bg-soft-black/30 transition-colors duration-300" />
-                                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                        <span className="font-sans text-xs tracking-widest uppercase text-ivory">
+                                    <div className="absolute inset-0 bg-soft-black/0 group-hover:bg-soft-black/50 transition-colors duration-300" />
+                                    <motion.div
+                                        initial="initial"
+                                        whileHover="whileHover"
+                                        className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        <motion.span
+                                            variants={variantViewText}
+                                            transition={{ duration: 0.5, ease: "easeOut" }}
+                                            className="font-sans text-xs tracking-widest uppercase text-primary-foreground px-2 py-1 inline-block"
+                                            style={{
+                                                background: "linear-gradient(to right, var(--primary), var(--primary))",
+                                                backgroundRepeat: "no-repeat",
+                                                backgroundPosition: "left center",
+                                            }}
+                                        >
                                             View
-                                        </span>
-                                    </div>
+                                        </motion.span>
+                                        <div className="absolute bottom-0 left-0 right-0 p-2 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                                            <p className="text-xs text-accent uppercase">{image.category}</p>
+                                            <h3 className="font-heading text-lg text-primary-foreground line-clamp-1">{image.alt}</h3>
+                                        </div>
+                                    </motion.div>
                                 </motion.div>
                             )
                         })}

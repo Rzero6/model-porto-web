@@ -8,13 +8,14 @@ import { Experience } from "@/components/public/Experience";
 import { Contact } from "@/components/public/Contact";
 import { Footer } from "@/components/public/Footer";
 import { useModel } from "@/hooks/useModel";
+import { LoaderPinwheel } from "lucide-react";
 const id = import.meta.env.VITE_FIREBASE_DATA;
 
 const Index = () => {
     const { model } = useModel(id);
     return (
         <main className="min-h-screen">
-            {model && (
+            {model ? (
                 <>
                     <Navigation name={model.name} />
                     <Hero model={model} />
@@ -26,6 +27,11 @@ const Index = () => {
                     <Contact model={model} />
                     <Footer model={model} />
                 </>
+            ) : (
+                <div className="min-h-screen flex items-center justify-center bg-linear-to-tl from-[#d4b5a0] via-[#c9a385] to-[#b8916d]">
+                    <div className="absolute inset-0 bg-linear-to-t from-soft-black/70 via-soft-black/20 to-transparent" />
+                    <LoaderPinwheel className="h-8 w-8 animate-spin text-ivory" />
+                </div>
             )}
         </main>
     );

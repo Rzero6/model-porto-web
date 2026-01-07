@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { DuplicateModelButton } from "../DuplicateButton";
 
 const navLinks = [
     { href: "#about", label: "About" },
     { href: "#portfolio", label: "Portfolio" },
     { href: "#digitals", label: "Digitals" },
     { href: "#details", label: "Details" },
+    { href: "#experience", label: "Experiences" },
     { href: "#contact", label: "Contact" },
 ];
 
@@ -36,18 +36,17 @@ export const Navigation = ({ name }: NavigationProps) => {
         >
             <nav className="container-wide px-6 lg:px-12 flex items-center justify-between">
                 <a
-                    href="#"
+                    href="#home"
                     className={`font-serif text-xl md:text-2xl tracking-wide
                          hover:text-foreground transition-colors
                         ${isScrolled ? "text-foreground hover:text-primary" : "text-primary-foreground hover:text-foreground"}
                       `}
-
                 >
                     {name || "Model Portfolio"}
                 </a>
 
                 {/* Desktop Navigation */}
-                <ul className="hidden md:flex items-center gap-8">
+                <ul className="hidden lg:flex items-center gap-8">
                     {navLinks.map((link) => (
                         <li key={link.href}>
                             <a
@@ -64,7 +63,7 @@ export const Navigation = ({ name }: NavigationProps) => {
                 {/* Mobile Menu Button */}
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className={`md:hidden p-2 
+                    className={`lg:hidden p-2 
                         ${isScrolled ? "text-foreground" : "text-primary-foreground"}`}
                     aria-label="Toggle menu"
                 >
@@ -80,14 +79,16 @@ export const Navigation = ({ name }: NavigationProps) => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.3 }}
-                        className="md:hidden absolute top-full left-0 right-0 bg-background/70 backdrop-blur-md shadow-elegant"
+                        className="lg:hidden absolute top-full left-0 right-0 bg-background/70 backdrop-blur-md shadow-elegant"
                     >
                         <ul className="flex flex-col items-center py-8 gap-6">
                             {navLinks.map((link) => (
                                 <li key={link.href}>
                                     <a
                                         href={link.href}
-                                        onClick={() => setIsOpen(false)}
+                                        onClick={() => {
+                                            setIsOpen(false);
+                                        }}
                                         className="font-sans text-sm tracking-widest uppercase text-foreground hover:text-primary transition-colors"
                                     >
                                         {link.label}

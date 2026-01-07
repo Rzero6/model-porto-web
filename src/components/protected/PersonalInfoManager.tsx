@@ -40,6 +40,7 @@ const PersonalInfoManager = ({ model, loading: isLoading, saveData }: PersonalIn
         digitals: [],
         portofolios: [],
         clients: [],
+        achievements: [],
     });
 
     // Populate form when model data loads
@@ -70,6 +71,7 @@ const PersonalInfoManager = ({ model, loading: isLoading, saveData }: PersonalIn
                 digitals: model.digitals || [],
                 portofolios: model.portofolios || [],
                 clients: model.clients || [],
+                achievements: model.achievements || [],
             });
         }
     }, [model]);
@@ -136,6 +138,7 @@ const PersonalInfoManager = ({ model, loading: isLoading, saveData }: PersonalIn
                 digitals: model.digitals || [],
                 portofolios: model.portofolios || [],
                 clients: model.clients || [],
+                achievements: model.achievements || [],
             });
         }
         setIsEditMode(false);
@@ -158,6 +161,28 @@ const PersonalInfoManager = ({ model, loading: isLoading, saveData }: PersonalIn
                         <Edit className="mr-2 h-4 w-4" />
                         Edit
                     </Button>
+                )}
+                {/* Submit Button */}
+                {isEditMode && (
+                    <div className="flex justify-end gap-4">
+                        <Button type="button" variant="outline" onClick={handleCancel} disabled={isLoading}>
+                            <X className="mr-2 h-4 w-4" />
+                            Cancel
+                        </Button>
+                        <Button type="submit" disabled={isLoading}>
+                            {isLoading ? (
+                                <>
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    Saving...
+                                </>
+                            ) : (
+                                <>
+                                    <Save className="mr-2 h-4 w-4" />
+                                    Save Model
+                                </>
+                            )}
+                        </Button>
+                    </div>
                 )}
             </div>
 
@@ -271,7 +296,7 @@ const PersonalInfoManager = ({ model, loading: isLoading, saveData }: PersonalIn
                                         <div className="mt-2">
                                             <img
                                                 src={formData.heroImage}
-                                                alt="Hero image preview"
+                                                alt="Hero preview"
                                                 className="w-full h-auto max-h-48 object-contain rounded-md border"
                                                 onError={(e) => {
                                                     (e.target as HTMLImageElement).style.display = "none";
@@ -301,7 +326,7 @@ const PersonalInfoManager = ({ model, loading: isLoading, saveData }: PersonalIn
                                         <div className="mt-2">
                                             <img
                                                 src={formData.heroImage}
-                                                alt="Hero image preview"
+                                                alt="Hero preview"
                                                 className="w-full h-auto max-h-48 object-contain rounded-md border"
                                                 onError={(e) => {
                                                     (e.target as HTMLImageElement).style.display = "none";
@@ -328,7 +353,7 @@ const PersonalInfoManager = ({ model, loading: isLoading, saveData }: PersonalIn
                                         <div className="mt-2">
                                             <img
                                                 src={formData.profileImage}
-                                                alt="Profile image preview"
+                                                alt="Profile preview"
                                                 className="w-full h-auto max-h-48 object-contain rounded-md border"
                                                 onError={(e) => {
                                                     (e.target as HTMLImageElement).style.display = "none";
@@ -358,7 +383,7 @@ const PersonalInfoManager = ({ model, loading: isLoading, saveData }: PersonalIn
                                         <div className="mt-2">
                                             <img
                                                 src={formData.profileImage}
-                                                alt="Profile image preview"
+                                                alt="Profile preview"
                                                 className="w-full h-auto max-h-48 object-contain rounded-md border"
                                                 onError={(e) => {
                                                     (e.target as HTMLImageElement).style.display = "none";
@@ -564,29 +589,6 @@ const PersonalInfoManager = ({ model, loading: isLoading, saveData }: PersonalIn
                         />
                     </div>
                 </div>
-
-                {/* Submit Button */}
-                {isEditMode && (
-                    <div className="flex justify-end gap-4">
-                        <Button type="button" variant="outline" onClick={handleCancel} disabled={isLoading}>
-                            <X className="mr-2 h-4 w-4" />
-                            Cancel
-                        </Button>
-                        <Button type="submit" disabled={isLoading}>
-                            {isLoading ? (
-                                <>
-                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    Saving...
-                                </>
-                            ) : (
-                                <>
-                                    <Save className="mr-2 h-4 w-4" />
-                                    Save Model
-                                </>
-                            )}
-                        </Button>
-                    </div>
-                )}
             </form>
         </div>
     );

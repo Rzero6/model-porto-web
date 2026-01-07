@@ -4,10 +4,12 @@ import { Card } from "../ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { getAvatarAbbreviation } from "@/lib/utils";
 import { Marquee, MarqueeContent, MarqueeItem } from "../ui/shadcn-io/marquee";
+import { AchievementsTimeline } from './AchievementTimeline';
 
 export const Experience = ({ model }: SectionProps) => {
     return (
         <section
+            id="experience"
             className="bg-background"
         >
 
@@ -18,13 +20,13 @@ export const Experience = ({ model }: SectionProps) => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
                     transition={{ duration: 0.8 }}
-                    className="text-center mb-12 md:mb-16"
+                    className="text-center"
                 >
                     <span className="font-sans text-xs tracking-[0.3em] uppercase text-muted-foreground mb-4 block">
                         Collaborations
                     </span>
                     <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground">
-                        Clients & <span className="italic text-primary">Experience</span>
+                        Clients & <span className="italic text-primary">Experiences</span>
                     </h2>
                 </motion.div>
             </div>
@@ -34,6 +36,7 @@ export const Experience = ({ model }: SectionProps) => {
                 <MarqueeList clients={model.clients} />
             )}
 
+            <AchievementsTimeline model={model} />
             {/* Contact section */}
             <div className="p-10 container-narrow">
 
@@ -42,7 +45,7 @@ export const Experience = ({ model }: SectionProps) => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.5 }}
-                    className="text-center mt-12"
+                    className="text-center"
                 >
                     <p className="font-sans text-muted-foreground mb-4">
                         Interested in collaborating?
@@ -74,7 +77,7 @@ const ClientCard = ({ client }: { client: Client }) => (
     <Card className="p-3 hover:border-primary">
         <div className="flex justify-between gap-4">
             <Avatar className="w-15 h-15">
-                <AvatarImage src={client.logo} />
+                <AvatarImage src={client.logo} loading="lazy" decoding="async" />
                 <AvatarFallback>{getAvatarAbbreviation(client.name)}</AvatarFallback>
             </Avatar>
             <div className="space-y-1">

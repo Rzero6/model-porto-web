@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Eye, EyeOff, Mail, Lock, Loader2, ShieldAlert } from 'lucide-react';
 import { toast } from 'sonner';
+import { Card } from './ui/card';
 
 type AuthMode = 'login' | 'signup' | 'reset';
 
@@ -104,11 +105,11 @@ const LoginForm = () => {
     // };
 
     return (
-        <div className="w-full max-w-md mx-auto">
+        <Card className="w-full max-w-md mx-auto">
             {/* Logo/Brand */}
-            <div className="text-center mb-8 animate-fade-in-up">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl glass glow-destructive mb-4">
-                    <ShieldAlert className="w-8 h-8 text-destructive" />
+            <div className="text-center mb-2">
+                <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl glass">
+                    <ShieldAlert className="w-20 h-20 text-destructive" />
                 </div>
                 <h1 className="text-3xl font-bold gradient-text mb-2">
                     {mode === 'login' ? 'Restricted Area' : mode === 'signup' ? 'Create Account' : 'Reset Password'}
@@ -124,7 +125,7 @@ const LoginForm = () => {
 
             {/* Form Card */}
             <div
-                className="glass rounded-2xl p-8 glow-destructive animate-fade-in-up"
+                className="glass rounded-2xl p-8"
                 style={{ animationDelay: '0.1s' }}
             >
                 <form onSubmit={handleEmailAuth} className="space-y-5">
@@ -193,7 +194,7 @@ const LoginForm = () => {
                     <Button
                         type="submit"
                         disabled={loading}
-                        className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base transition-all duration-300 hover:glow-primary"
+                        className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base transition-all duration-300 "
                     >
                         {loading ? (
                             <Loader2 className="w-5 h-5 animate-spin" />
@@ -301,7 +302,7 @@ const LoginForm = () => {
             >
                 By continuing, you agree to our Terms of Service and Privacy Policy
             </p> */}
-        </div>
+        </Card>
     );
 };
 

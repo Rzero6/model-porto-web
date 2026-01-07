@@ -2,7 +2,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { useEffect } from "react";
 import type { Digital } from "@/types/ModelInfo";
-import { Badge } from "../ui/badge";
 
 interface ImageLightboxProps {
     image: Digital | null;
@@ -56,10 +55,20 @@ export const ImageLightbox = ({ image, onClose }: ImageLightboxProps) => {
                             alt={image.alt}
                             className="max-w-full max-h-full object-contain"
                         />
-                        <div className="absolute bottom-0 left-0 right-0 p-4 text-center">
-                            <Badge >
+                        <div className="absolute bottom-0 left-0 right-0 p-4 flex justify-center">
+                            <motion.p
+                                initial={{ backgroundSize: "0% 100%" }}
+                                animate={{ backgroundSize: "100% 100%" }}
+                                transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+                                className="font-sans text-sm text-primary-foreground px-2 py-1 inline-block"
+                                style={{
+                                    background: "linear-gradient(to right, var(--primary), var(--primary))",
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "left center",
+                                }}
+                            >
                                 {image.alt}
-                            </Badge>
+                            </motion.p>
                         </div>
                     </motion.div>
                 </motion.div>

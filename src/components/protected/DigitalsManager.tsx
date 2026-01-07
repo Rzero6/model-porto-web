@@ -32,8 +32,11 @@ const DigitalsManager = ({ model, loading: isLoading, saveData }: DigitalsManage
             });
         }, 0);
     };
-    const handleRemove = (index: number) =>
+    const handleRemove = (index: number) => {
+        const confirmDelete = globalThis.confirm("Are you sure want to delete?");
+        if (!confirmDelete) return;
         setDigitals(digitals.filter((_, i) => i !== index));
+    }
 
     const handleChange = (index: number, field: keyof Digital, value: string) => {
         const updated = [...digitals];
@@ -48,6 +51,7 @@ const DigitalsManager = ({ model, loading: isLoading, saveData }: DigitalsManage
     };
 
     const handleCancel = () => {
+
         setDigitals(model?.digitals || []);
         setIsEditMode(false);
     };
@@ -142,7 +146,7 @@ const DigitalsManager = ({ model, loading: isLoading, saveData }: DigitalsManage
                                             placeholder="https://..."
                                         />
                                     ) : (
-                                        <p className="text-sm break-all text-muted-foreground">
+                                        <p className="text-sm break-all text-muted-foreground line-clamp-1">
                                             {digital.src || "Not set"}
                                         </p>
                                     )}

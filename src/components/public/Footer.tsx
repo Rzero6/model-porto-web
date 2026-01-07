@@ -4,9 +4,6 @@ import { TikTokIcon } from "@/data/TiktokIcon";
 import type { SectionProps } from "@/types/ModelInfo";
 
 export const Footer = ({ model }: SectionProps) => {
-    const scrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    };
 
     return (
         <footer className="bg-soft-black text-ivory py-12 md:py-16">
@@ -58,16 +55,16 @@ export const Footer = ({ model }: SectionProps) => {
                     }
 
                     {/* Back to Top */}
-                    <button
-                        onClick={scrollToTop}
-                        className="flex items-center gap-2 text-ivory/50 hover:text-ivory transition-colors group"
+                    <a
+                        href="/#"
+                        className="flex cursor-pointer items-center gap-2 text-ivory/50 hover:text-ivory transition-colors group"
                         aria-label="Scroll to top"
                     >
                         <span className="font-sans text-xs tracking-widest uppercase">
                             Back to Top
                         </span>
                         <ArrowUp className="w-4 h-4 group-hover:-translate-y-1 transition-transform" />
-                    </button>
+                    </a>
                 </motion.div>
 
                 {/* Copyright */}

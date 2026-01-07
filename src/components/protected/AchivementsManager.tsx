@@ -4,25 +4,35 @@ import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import type { ModelInfo, Client } from "@/types/ModelInfo";
+import type { ModelInfo, Achievement } from "@/types/ModelInfo";
+import { Textarea } from "../ui/textarea";
+import { DatePicker } from "../ui/date-picker";
+import { Timestamp } from "firebase/firestore";
 
-interface ClientsManagerProps {
+interface AchivementsManagerProps {
     model: ModelInfo | null;
     loading: boolean;
     saveData: (data: Omit<ModelInfo, "id" | "created_at">) => Promise<void>;
 }
 
-const ClientsManager = ({ model, loading: isLoading, saveData }: ClientsManagerProps) => {
+const AchivementsManager = ({ model, loading: isLoading, saveData }: AchivementsManagerProps) => {
     const [isEditMode, setIsEditMode] = useState(false);
-    const [clients, setClients] = useState<Client[]>([]);
+    const [achievements, setAchievements] = useState<Achievement[]>([]);
     const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if (model) setClients(model.clients || []);
+        if (model) {
+            const achievementsWithDates = (model.achievements || []).map(a => ({
+                ...a,
+                date: a.date instanceof Timestamp ? a.date.toDate() : new Date(a.date)
+            }));
+            setAchievements(achievementsWithDates);
+        }
     }, [model]);
 
+
     const handleAdd = () => {
-        setClients(prev => [...prev, { name: "", logo: "", url: "" }]);
+        setAchievements(prev => [...prev, { title: "", description: "", imageUrl: "", date: new Date() }]);
         setTimeout(() => {
             containerRef.current?.scrollTo({
                 top: containerRef.current.scrollHeight,
@@ -34,23 +44,27 @@ const ClientsManager = ({ model, loading: isLoading, saveData }: ClientsManagerP
     const handleRemove = (index: number) => {
         const confirmDelete = globalThis.confirm("Are you sure want to delete?");
         if (!confirmDelete) return;
-        setClients(clients.filter((_, i) => i !== index));
+        setAchievements(achievements.filter((_, i) => i !== index));
     }
 
-    const handleChange = (index: number, field: keyof Client, value: string) => {
-        const updated = [...clients];
+    const handleChange = (index: number, field: keyof Achievement, value: string | Date) => {
+        const updated = [...achievements];
         updated[index] = { ...updated[index], [field]: value };
-        setClients(updated);
+        setAchievements(updated);
     };
 
     const handleSave = async () => {
         if (!model) return;
-        await saveData({ ...model, clients });
+        await saveData({ ...model, achievements });
         setIsEditMode(false);
     };
 
     const handleCancel = () => {
-        setClients(model?.clients || []);
+        const achievementsWithDates = (model?.achievements || []).map(a => ({
+            ...a,
+            date: a.date instanceof Timestamp ? a.date.toDate() : new Date(a.date)
+        }));
+        setAchievements(achievementsWithDates || []);
         setIsEditMode(false);
     };
 
@@ -66,7 +80,7 @@ const ClientsManager = ({ model, loading: isLoading, saveData }: ClientsManagerP
         <div className="space-y-6">
             {/* Header */}
             <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold text-primary">Clients</h2>
+                <h2 className="text-2xl font-bold text-primary">Achievements</h2>
                 {!isEditMode && (
                     <Button variant="outline" onClick={() => setIsEditMode(true)}>
                         <Edit className="mr-2 h-4 w-4" /> Edit
@@ -78,7 +92,7 @@ const ClientsManager = ({ model, loading: isLoading, saveData }: ClientsManagerP
                             <X className="mr-2 h-4 w-4" /> Cancel
                         </Button>
                         <Button onClick={handleAdd} variant="outline">
-                            <Plus className="mr-2 h-4 w-4" /> Add Client
+                            <Plus className="mr-2 h-4 w-4" /> Add Achievement
                         </Button>
                         <Button type="button" onClick={handleSave} disabled={isLoading}>
                             {isLoading ? (
@@ -87,7 +101,7 @@ const ClientsManager = ({ model, loading: isLoading, saveData }: ClientsManagerP
                                 </>
                             ) : (
                                 <>
-                                    <Save className="mr-2 h-4 w-4" /> Save Clients
+                                    <Save className="mr-2 h-4 w-4" /> Save Achievements
                                 </>
                             )}
                         </Button>
@@ -96,22 +110,22 @@ const ClientsManager = ({ model, loading: isLoading, saveData }: ClientsManagerP
             </div>
 
             {/* Cards */}
-            {clients.length === 0 && !isEditMode ? (
+            {achievements.length === 0 && !isEditMode ? (
                 <div className="text-center py-12 text-muted-foreground">
-                    <p>No clients added yet.</p>
+                    <p>No achievements added yet.</p>
                     <Button className="mt-4" variant="outline" onClick={() => setIsEditMode(true)}>
-                        <Plus className="mr-2 h-4 w-4" /> Add Client
+                        <Plus className="mr-2 h-4 w-4" /> Add Achievement
                     </Button>
                 </div>
             ) : (
                 <div ref={containerRef} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 max-h-125 overflow-auto">
-                    {clients.map((client, index) => (
+                    {achievements.map((achievement, index) => (
                         <Card key={index} className="overflow-hidden">
-                            {/* Logo */}
-                            {client.logo && (
+                            {/* Image URL */}
+                            {achievement.imageUrl && (
                                 <img
-                                    src={client.logo}
-                                    alt={client.name}
+                                    src={achievement.imageUrl}
+                                    alt={achievement.title}
                                     className="h-48 w-full object-contain"
                                     onError={(e) =>
                                         ((e.target as HTMLImageElement).style.display = "none")
@@ -121,7 +135,7 @@ const ClientsManager = ({ model, loading: isLoading, saveData }: ClientsManagerP
 
                             <CardHeader className="flex flex-row items-center justify-between">
                                 <CardTitle className="text-base">
-                                    Client #{index + 1}
+                                    Achievement #{index + 1}
                                 </CardTitle>
                                 {isEditMode && (
                                     <Button
@@ -136,45 +150,67 @@ const ClientsManager = ({ model, loading: isLoading, saveData }: ClientsManagerP
 
                             <CardContent className="space-y-4">
                                 <div className="space-y-2">
-                                    <Label>Name</Label>
+                                    <Label>Title</Label>
                                     {isEditMode ? (
                                         <Input
-                                            value={client.name}
-                                            onChange={(e) => handleChange(index, "name", e.target.value)}
-                                            placeholder="Client Name"
+                                            value={achievement.title}
+                                            onChange={(e) => handleChange(index, "title", e.target.value)}
+                                            placeholder="Achievement Title"
+                                            required
                                         />
                                     ) : (
                                         <p className="text-sm text-muted-foreground">
-                                            {client.name || "Not set"}
+                                            {achievement.title || "Not set"}
                                         </p>
                                     )}
                                 </div>
                                 <div className="space-y-2">
-                                    <Label>Client URL</Label>
+                                    <Label>Achievement Description</Label>
                                     {isEditMode ? (
-                                        <Input
-                                            value={client.url || ""}
-                                            onChange={(e) => handleChange(index, "url", e.target.value)}
-                                            placeholder="https://..."
+                                        <Textarea
+                                            value={achievement.description || ""}
+                                            onChange={(e) => handleChange(index, "description", e.target.value)}
+                                            placeholder="Description..."
+                                            rows={3}
+                                            required
                                         />
                                     ) : (
-                                        <p className="text-sm break-all text-muted-foreground line-clamp-1">
-                                            {client.url || "Not set"}
+                                        <p className="text-sm break-all text-muted-foreground line-clamp-3">
+                                            {achievement.description || "Not set"}
                                         </p>
                                     )}
                                 </div>
                                 <div className="space-y-2">
-                                    <Label>Logo URL</Label>
+                                    <Label>Image URL</Label>
                                     {isEditMode ? (
                                         <Input
-                                            value={client.logo || ""}
-                                            onChange={(e) => handleChange(index, "logo", e.target.value)}
+                                            value={achievement.imageUrl || ""}
+                                            onChange={(e) => handleChange(index, "imageUrl", e.target.value)}
                                             placeholder="https://..."
+                                            required
                                         />
                                     ) : (
                                         <p className="text-sm break-all text-muted-foreground line-clamp-1">
-                                            {client.logo || "Not set"}
+                                            {achievement.imageUrl || "Not set"}
                                         </p>
+                                    )}
+                                </div>
+                                <div className="space-y-2">
+                                    {isEditMode ? (
+                                        <DatePicker
+                                            value={achievement.date ?? undefined}
+                                            onChange={(value) => handleChange(index, "date", value)}
+                                            buttonClassName="w-full bg-card text-card-foreground"
+                                            className="bg-card text-card-foreground"
+                                            required
+                                        />
+                                    ) : (
+                                        <>
+                                            <Label htmlFor="date">Date</Label>
+                                            <p className="text-sm break-all text-muted-foreground">
+                                                {achievement.date.toLocaleDateString() || "Not set"}
+                                            </p>
+                                        </>
                                     )}
                                 </div>
                             </CardContent>
@@ -186,4 +222,4 @@ const ClientsManager = ({ model, loading: isLoading, saveData }: ClientsManagerP
     );
 };
 
-export default ClientsManager;
+export default AchivementsManager;

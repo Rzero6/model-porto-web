@@ -14,6 +14,7 @@ export interface ModelInfo {
     digitals: Digital[];
     portofolios: Portfolio[];
     clients: Client[];
+    achievements: Achievement[]
 }
 export interface DetailsInfo {
     height: number;
@@ -27,19 +28,23 @@ export interface DetailsInfo {
     languages: string[];
 }
 export interface Digital {
-    id?: string;
     src: string;
     alt: string;
 }
 export interface Portfolio extends Digital {
     category: string;
-    aspectRatio?: string;
+    aspectRatio: string;
 }
 export interface Client {
-    id?: string;
     name: string;
     url?: string;
     logo?: string;
+}
+export interface Achievement {
+    title: string;
+    description: string;
+    imageUrl: string;
+    date: Date;
 }
 
 export interface SectionProps {

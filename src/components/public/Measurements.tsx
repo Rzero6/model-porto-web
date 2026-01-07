@@ -82,10 +82,10 @@ export const Measurements = ({ model }: SectionProps) => {
                                 className={`flex justify-between items-center py-4 px-6 md:px-8 ${index !== measurementItems.length - 1 ? "border-b border-border" : ""
                                     }`}
                             >
-                                <span className="font-sans text-sm tracking-widest uppercase text-muted-foreground">
+                                <span className="font-sans text-sm tracking-widest uppercase text-muted-foreground text-start">
                                     {item.label}
                                 </span>
-                                <span className="font-serif text-lg text-foreground">
+                                <span className="font-serif sm:text-xs md:text-md lg:text-lg text-foreground text-end">
                                     {item.value}
                                 </span>
                             </motion.div>
