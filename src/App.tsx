@@ -6,7 +6,6 @@ import { Toaster } from './components/ui/sonner';
 import ProtectedRoute from './components/protected/ProtectedRoute';
 import Admin from './pages/Admin';
 import Login from './pages/Login';
-import { AuthProvider } from './components/AuthProvider';
 
 const App = () => (
   <TooltipProvider>
@@ -17,11 +16,9 @@ const App = () => (
         <Route path="*" element={<NotFound />} />
         <Route path="/login" element={<Login />} />
         <Route path='/admin' element={
-          <AuthProvider>
             <ProtectedRoute>
               <Admin />
             </ProtectedRoute>
-          </AuthProvider>
         } />
       </Routes>
     </BrowserRouter>
